@@ -2,10 +2,8 @@
 
 An ad-free, cute flick-and-merge game. Slide your piece left or right below the dashed line, let go, and it shoots up the tray. Two of the same merge into the next one. Don't let pieces pile back over the line.
 
-- **Adventure:** a level map. Each level has a goal (make a Donut, make 2 Melon Pans, crack every sugar cube) and a shot limit. Finish in fewer shots for up to ★★★. Every 10th level is a Fruit Tart boss.
-- **Daily Bake:** the same board and pieces for everyone today, 30 shots, keep your streak going and copy your result to share.
+- **Adventure:** each level has a goal ("make a Donut"); later levels start with pieces already on the tray.
 - **Classic:** endless, go for a high score.
-- **Boosters, earned never bought:** Rainbow Sprinkle (upgrades whatever it hits), Whisk (shakes the tray), Swap (tap NEXT). Get them from new ★★★ levels, gift levels every 5 levels, and the Daily Bake.
 
 Bakery edition: choco chip → crown cake. Art made with ChatGPT.
 

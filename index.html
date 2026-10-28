@@ -94,9 +94,9 @@ button:focus-visible{outline:3px solid #fff;outline-offset:3px}
 .map-inner svg{position:absolute;inset:0;width:100%;height:100%;overflow:visible}
 .node{position:absolute;transform:translate(-50%,-50%);display:flex;flex-direction:column;align-items:center;gap:2px}
 .node .b{width:62px;height:62px;border-radius:50%;display:grid;place-items:center;font-family:var(--font-num);font-size:26px;color:#fff;
-  background:radial-gradient(circle at 35% 30%,#ffc2d6 0 20%,#ff8db3 60%,#e8578a 100%);
+  background:radial-gradient(circle at 35% 30%,color-mix(in srgb,var(--accent) 35%,#fff) 0 20%,color-mix(in srgb,var(--accent) 80%,#fff) 60%,var(--accent) 100%);
   -webkit-text-stroke:1.5px var(--accentDark);paint-order:stroke fill;
-  box-shadow:inset 0 -5px 0 rgba(150,30,70,.25),inset 0 4px 0 rgba(255,255,255,.4),0 6px 0 var(--accentDark),0 10px 18px rgba(90,30,40,.25)}
+  box-shadow:inset 0 -5px 0 rgba(0,0,0,.14),inset 0 4px 0 rgba(255,255,255,.4),0 6px 0 var(--accentDark),0 10px 18px rgba(40,30,30,.25)}
 .node.done .b{background:radial-gradient(circle at 35% 30%,#fff2c2 0 18%,#ffd36b 60%,#f0a52a 100%);-webkit-text-stroke-color:var(--goldDark);
   box-shadow:inset 0 -5px 0 rgba(150,90,10,.25),inset 0 4px 0 rgba(255,255,255,.5),0 6px 0 var(--goldDark),0 10px 18px rgba(90,40,10,.22)}
 .node.lock .b{background:radial-gradient(circle at 35% 30%,#fff 0 20%,#f1e3dd 60%,#dcc6be 100%);color:#c9aea5;-webkit-text-stroke:0;
@@ -455,7 +455,7 @@ function sprite(ed, tier, px){
   if (a.ok){ g.imageSmoothingQuality = 'high'; g.drawImage(stepDown(a.img, px), 0, 0, px, px); }
   else if (tier === RB) drawRainbow(g, px);
   else if (tier === 'cube') drawCube(g, px);
-  else drawBlob(g, px, ed.tiers[tier].color);
+  else drawBlob(g, px, ed.tiers[tier].color, ed.faces !== false);
   a.cache.set(key, c);
   return c;
 }
@@ -475,13 +475,13 @@ function drawFace(g, r, cy, s, ink, sleepy){
   g.strokeStyle = ink; g.lineWidth = 2*s; g.lineCap = 'round'; g.lineJoin = 'round';
   g.beginPath(); g.moveTo(r-4.5*s, cy+4*s); g.quadraticCurveTo(r-2.25*s, cy+7*s, r, cy+4*s); g.quadraticCurveTo(r+2.25*s, cy+7*s, r+4.5*s, cy+4*s); g.stroke();
 }
-function drawBlob(g, px, color){
+function drawBlob(g, px, color, face=true){
   const r = px/2;
   const grd = g.createRadialGradient(r*.72, r*.62, r*.1, r, r, r);
   grd.addColorStop(0, shade(color,.45)); grd.addColorStop(.7, color); grd.addColorStop(1, shade(color,-.28));
   g.fillStyle = grd; g.beginPath(); g.arc(r,r,r*.98,0,Math.PI*2); g.fill();
   g.fillStyle = 'rgba(255,255,255,.55)'; g.beginPath(); g.ellipse(r*.62, r*.5, r*.26, r*.14, -.6, 0, Math.PI*2); g.fill();
-  drawFace(g, r, r*1.08, r/40, lum(color) < .35 ? '#fff' : '#3b2218');
+  if (face) drawFace(g, r, r*1.08, r/40, lum(color) < .35 ? '#fff' : '#3b2218');
 }
 function drawRainbow(g, px){
   const r = px/2, cols = ['#ff6b6b','#ffa94d','#ffe066','#69db7c','#4dabf7','#b197fc'];
@@ -608,6 +608,7 @@ function applyTheme(ed){
   $('banner').style.backgroundImage = sc.banner ? `url("${sc.banner.src}")` : '';
   $('banner').classList.toggle('css', !sc.banner);
   $('card').style.backgroundImage = sc.card ? `url("${sc.card.src}")` : '';
+  $('card').style.aspectRatio = sc.card ? `${sc.card.naturalWidth}/${sc.card.naturalHeight}` : '';
   $('card').classList.toggle('css', !sc.card);
 }
 function P(x, y){
@@ -1376,7 +1377,7 @@ function renderMap(scrollToCurrent){
   inner.innerHTML = `<svg viewBox="0 0 ${wpx} ${hpx}" preserveAspectRatio="none">
     <path d="${d}" fill="none" stroke="rgba(150,60,70,.18)" stroke-width="26" stroke-linecap="round" transform="translate(0,5)"/>
     <path d="${d}" fill="none" stroke="#fff7f0" stroke-width="22" stroke-linecap="round"/>
-    <path d="${d}" fill="none" stroke="#ffb3c9" stroke-width="6" stroke-linecap="round" stroke-dasharray="2 16"/></svg>`;
+    <path d="${d}" fill="none" style="stroke:color-mix(in srgb,var(--accent) 55%,#fff)" stroke-width="6" stroke-linecap="round" stroke-dasharray="2 16"/></svg>`;
   for (let n=1;n<=count;n++){
     const p = pos(n), spec = levelSpec(n), st = all[n] || 0;
     const el = document.createElement('button');

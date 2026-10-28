@@ -43,18 +43,20 @@ const EDITIONS = [
 
   /* ---- coming soon: tier names + colours are ready, art is not ---- */
   {
-    id: 'garden', soon: true,
-    name: 'Fruit Garden', blurb: 'Berries to watermelon',
+    id: 'garden',
+    name: 'Fruit Garden', blurb: 'Blueberry to watermelon',
     sky: 'linear-gradient(180deg, #bfe8ff 0%, #d9f7c9 60%, #fff4c4 100%)',
-    accent: '#4fbf6a', accentDark: '#2f8a46', ink: '#24452c',
-    wood: { top: '#f3e2c4', bottom: '#ead3ad', rim: '#d9b98a', rimDark: '#a9845a', grain: 'rgba(140,100,50,.10)' },
+    accent: '#3fb45e', accentDark: '#26803f', ink: '#2c3d1e',
+    wood: { top: '#f6e2bf', bottom: '#efd3a5', rim: '#e2b980', rimDark: '#b9864f', grain: 'rgba(140,100,50,.10)' },
+    scene: { bg: true, board: true, banner: true, card: true, map: true, rim: { x: .06, y: .036 } },
+    faces: false,
     tiers: [
-      { name: 'Blueberry', color: '#5b6cff' }, { name: 'Cherry', color: '#ff4d6d' },
-      { name: 'Strawberry', color: '#ff6b81' }, { name: 'Grape', color: '#9b5de5' },
-      { name: 'Lemon', color: '#ffe066' }, { name: 'Peach', color: '#ffb38a' },
-      { name: 'Apple', color: '#ff5c5c' }, { name: 'Orange', color: '#ffa94d' },
-      { name: 'Pineapple', color: '#ffd43b' }, { name: 'Melon', color: '#b2f2bb' },
-      { name: 'Watermelon', color: '#51cf66' },
+      { name: 'Blueberry', color: '#4b5bd6' }, { name: 'Cherry', color: '#e0283a' },
+      { name: 'Lime', color: '#8fd14f' }, { name: 'Lemon', color: '#ffd93b' },
+      { name: 'Plum', color: '#8e44ad' }, { name: 'Peach', color: '#ffb38a' },
+      { name: 'Orange', color: '#ff8a1f' }, { name: 'Apple', color: '#ff4d4d' },
+      { name: 'Coconut', color: '#8b5a2b' }, { name: 'Melon', color: '#c5e88c' },
+      { name: 'Watermelon', color: '#2fa84f' },
     ],
   },
   {
