@@ -24,7 +24,7 @@ const EDITIONS = [
     sky: 'linear-gradient(180deg, #ffb59c 0%, #ffc9cf 38%, #ffe0d2 70%, #ffd3b8 100%)',
     accent: '#ff6f9f', accentDark: '#c9466f', ink: '#5a2a35',
     wood: { top: '#f8dccd', bottom: '#f3cbb8', rim: '#eab3a0', rimDark: '#c98a78', grain: 'rgba(190,120,100,.10)' },
-    scene: { bg: true, board: true, banner: true, card: true, rim: { x: .073, y: .048 } },
+    scene: { bg: true, board: true, banner: true, card: true, map: true, rim: { x: .073, y: .048 } },
     icon: 'art/bakery/icon.webp',
     tiers: [
       { name: 'Choco Chip',     color: '#7a4630' },
