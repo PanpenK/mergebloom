@@ -459,7 +459,20 @@ function sprite(ed, tier, px){
   if (c) return c;
   c = document.createElement('canvas'); c.width = c.height = px;
   const g = c.getContext('2d');
-  if (a.ok){ g.imageSmoothingQuality = 'high'; g.drawImage(stepDown(a.img, px), 0, 0, px, px); }
+  if (a.ok){
+    g.imageSmoothingQuality = 'high';
+    const ol = ed && ed.look && ed.look.outline;
+    if (ol){
+      // sticker edge: a tinted silhouette nudged around the item, then the item on top
+      const inset = Math.max(1.5, px*.03), sz = px - inset*2, src = stepDown(a.img, sz);
+      const t = document.createElement('canvas'); t.width = t.height = px;
+      const tg = t.getContext('2d'); tg.drawImage(src, inset, inset, sz, sz);
+      tg.globalCompositeOperation = 'source-in'; tg.fillStyle = ol; tg.fillRect(0,0,px,px);
+      const w = Math.max(1, px*.018);
+      for (let k=0;k<12;k++){ const an = k/12*Math.PI*2; g.drawImage(t, Math.cos(an)*w, Math.sin(an)*w); }
+      g.drawImage(src, inset, inset, sz, sz);
+    } else g.drawImage(stepDown(a.img, px), 0, 0, px, px);
+  }
   else if (tier === RB) drawRainbow(g, px);
   else if (tier === 'cube') drawCube(g, px);
   else drawBlob(g, px, ed.tiers[tier].color, ed.faces !== false);
@@ -702,6 +715,12 @@ function buildBoard(){
     t.restore();
     roundPoly(t, o, 22*kAt(-R)*S); t.strokeStyle = 'rgba(255,255,255,.55)'; t.lineWidth = 2; t.stroke();
   }
+  if (ED.look && ED.look.surface){
+    const n = [P(0,0), P(W,0), P(W,L), P(0,L)];
+    t.save(); roundPoly(t, n, 14*S); t.clip();
+    t.globalCompositeOperation = 'multiply'; t.fillStyle = ED.look.surface; t.fillRect(0, 0, VW, VH);
+    t.restore();
+  }
   const Dk = document.createElement('canvas'); Dk.width = c.width; Dk.height = c.height;
   const d = Dk.getContext('2d'); d.drawImage(T, 0, 0);
   d.globalCompositeOperation = 'source-atop';
@@ -714,7 +733,7 @@ function buildBoard(){
   for (let i = ff*dpr - 1; i > 0; i -= 2) g.drawImage(Dk, 0, i);
   g.drawImage(T, 0, 0);
   g.scale(dpr, dpr);
-  g.save(); g.strokeStyle = 'rgba(255,255,255,.92)'; g.lineCap = 'round';
+  g.save(); g.strokeStyle = (ED.look && ED.look.line) || 'rgba(255,255,255,.92)'; g.lineCap = 'round';
   const a = P(4, DANGER_Y), b = P(W-4, DANGER_Y);
   g.lineWidth = Math.max(2.5, 4 * a.k); g.setLineDash([16*a.k, 12*a.k]);
   g.beginPath(); g.moveTo(a.x, a.y); g.lineTo(b.x, b.y); g.stroke(); g.restore();
@@ -1115,14 +1134,14 @@ function render(){
   }
   if (ready){
     const a = P(ax, LAUNCH_Y - radOf(G.cur)), b = P(ax, 6);
-    g.save(); g.strokeStyle = G.cur === RB ? 'rgba(255,215,90,.98)' : 'rgba(255,255,255,.95)'; g.lineCap = 'round'; g.lineWidth = Math.max(2, 3.2*a.k);
+    g.save(); g.strokeStyle = G.cur === RB ? 'rgba(255,190,60,.98)' : (ED.look && ED.look.line) || 'rgba(255,255,255,.95)'; g.lineCap = 'round'; g.lineWidth = Math.max(2, 3.2*a.k);
     g.shadowColor = 'rgba(120,50,50,.25)'; g.shadowBlur = 4;
     g.beginPath(); g.moveTo(a.x, a.y); g.lineTo(b.x, b.y); g.stroke(); g.restore();
   }
   list.sort((p,q) => p.y - q.y);
   for (const p of list){
     const s = P(p.x, p.y), rx = p.r*s.k*.92*(1 - p.pop*.4);
-    g.fillStyle = 'rgba(120,45,40,.22)';
+    g.fillStyle = (ED.look && ED.look.shadow) || 'rgba(120,45,40,.22)';
     g.beginPath(); g.ellipse(s.x, s.y + rx*.1, rx, rx*tiltAt(p.y)*.9, 0, 0, Math.PI*2); g.fill();
   }
   for (const p of list) drawPiece(g, p);

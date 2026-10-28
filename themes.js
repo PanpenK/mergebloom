@@ -66,6 +66,8 @@ const EDITIONS = [
     accent: '#ec7fbf', accentDark: '#b9548f', ink: '#5b3a66',
     wood: { top: '#fff3f1', bottom: '#fde3ea', rim: '#f5c3d5', rimDark: '#d496ae', grain: 'rgba(200,120,150,.08)' },
     scene: { bg: true, board: true, banner: true, card: true, map: true, extras: true, rim: { x: .10, y: .068 } },
+    // pale pieces on a pale tray need help: tint the surface, outline the pieces, darken lines and shadows
+    look: { surface: '#e9bfdc', outline: 'rgba(150,70,125,.55)', line: 'rgba(176,70,135,.9)', shadow: 'rgba(110,35,90,.32)' },
     faces: false,
     tiers: [
       { name: 'Mini Mallow', color: '#fff4f6' }, { name: 'Strawberry Jam', color: '#ff5f7e' },
