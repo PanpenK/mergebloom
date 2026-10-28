@@ -1,4 +1,4 @@
-const CACHE = 'mergebloom-v5';
+const CACHE = 'mergebloom-v6';
 const CORE = ['./', 'index.html', 'themes.js', 'matter.min.js', 'manifest.webmanifest', 'icon-192.png', 'icon-512.png'];
 self.addEventListener('install', e => {
   e.waitUntil(caches.open(CACHE).then(c => c.addAll(CORE)));

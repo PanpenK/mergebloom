@@ -403,7 +403,8 @@ function mulberry32(a){ return function(){ a |= 0; a = a + 0x6D2B79F5 | 0; let t
 
 /* ---------- editions & art ---------- */
 let ED = null;
-const ART = {}, SCENE = {}, EXTRA = {};
+const ART = {}, SCENE = {}, EXTRAS = {};
+let STAR_ok = false;
 function pad(n){ return String(n).padStart(2,'0'); }
 function loadArt(ed){
   if (ART[ed.id]) return ART[ed.id];
@@ -427,15 +428,21 @@ function loadArt(ed){
   }
   return list;
 }
-/* shared extras: booster pieces/icons, sugar cube, star */
-for (const key of ['rainbow','whisk','swap','cube','star']){
-  const a = EXTRA[key] = { img:null, ok:false, cache:new Map() };
-  const img = new Image(); img.decoding = 'async';
-  img.onload = ()=>{ a.ok = true; a.cache.clear();
-    if (key === 'star'){ document.documentElement.style.setProperty('--star', `url("${img.src}")`); document.body.classList.remove('nostar'); }
-    paintBoostIcons(); };
-  img.src = `art/bakery/${key}.webp`; a.img = img;
+/* boosters and blocker: an edition can bring its own (scene.extras), otherwise it borrows the bakery set */
+function extrasFor(ed){
+  const id = ed && !ed.soon && ed.scene && ed.scene.extras ? ed.id : 'bakery';
+  if (EXTRAS[id]) return EXTRAS[id];
+  const set = EXTRAS[id] = {};
+  for (const key of ['rainbow','whisk','swap','cube']){
+    const a = set[key] = { img:null, ok:false, cache:new Map() };
+    const img = new Image(); img.decoding = 'async';
+    img.onload = ()=>{ a.ok = true; a.cache.clear(); if (ED && extrasFor(ED) === set) paintBoostIcons(); };
+    img.src = `art/${id}/${key}.webp`; a.img = img;
+  }
+  return set;
 }
+const EX = key => extrasFor(ED)[key];
+{ const img = new Image(); img.onload = ()=>{ STAR_ok = true; document.documentElement.style.setProperty('--star', `url("${img.src}")`); document.body.classList.remove('nostar'); }; img.src = 'art/bakery/star.webp'; }
 function stepDown(src, px){
   let s = Math.max(src.naturalWidth || src.width, src.naturalHeight || src.height);
   while (s / 2 >= px * 1.2){
@@ -446,7 +453,7 @@ function stepDown(src, px){
 }
 function sprite(ed, tier, px){
   px = Math.max(8, Math.ceil(px/4)*4);
-  const a = tier === RB ? EXTRA.rainbow : tier === 'cube' ? EXTRA.cube : loadArt(ed)[tier];
+  const a = tier === RB ? extrasFor(ed).rainbow : tier === 'cube' ? extrasFor(ed).cube : loadArt(ed)[tier];
   const key = px + (a.ok ? 'i' : 'f');
   let c = a.cache.get(key);
   if (c) return c;
@@ -522,7 +529,7 @@ function paintIcon(cv, ed, tier, opts={}){
 }
 /* booster icon element: Codex art when loaded, a drawn stand-in otherwise */
 function boostIcon(key, px=46){
-  const a = EXTRA[key];
+  const a = EX(key);
   const c = document.createElement('canvas'); c.width = c.height = px*3;
   const g = c.getContext('2d');
   if (a.ok) g.drawImage(stepDown(a.img, px*3), 0, 0, px*3, px*3);
@@ -1199,7 +1206,7 @@ window.addEventListener('pagehide', saveGame);
 function show(id){ for (const s of ['home','map','game']) $(s).hidden = s !== id; }
 function setEdition(id){
   ED = EDITIONS.find(e => e.id === id && !e.soon) || EDITIONS[0];
-  store.set(K.ed, ED.id); loadArt(ED); applyTheme(ED);
+  store.set(K.ed, ED.id); loadArt(ED); extrasFor(ED); applyTheme(ED); paintBoostIcons();
 }
 function startGame(mode, opts={}){
   const saved = opts.resume ? savedGame() : null;

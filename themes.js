@@ -60,6 +60,23 @@ const EDITIONS = [
     ],
   },
   {
+    id: 'cloud',
+    name: 'Sweet Cloud', blurb: 'Mini mallow to cloud parfait',
+    sky: 'linear-gradient(180deg, #ffd6ec 0%, #e6dcff 50%, #fff0f6 100%)',
+    accent: '#ec7fbf', accentDark: '#b9548f', ink: '#5b3a66',
+    wood: { top: '#fff3f1', bottom: '#fde3ea', rim: '#f5c3d5', rimDark: '#d496ae', grain: 'rgba(200,120,150,.08)' },
+    scene: { bg: true, board: true, banner: true, card: true, map: true, extras: true, rim: { x: .10, y: .068 } },
+    faces: false,
+    tiers: [
+      { name: 'Mini Mallow', color: '#fff4f6' }, { name: 'Strawberry Jam', color: '#ff5f7e' },
+      { name: 'Mint Scoop', color: '#b8f0d8' }, { name: 'Lemon Sorbet', color: '#fff1a0' },
+      { name: 'Toasted Mallow', color: '#f2c27e' }, { name: 'Blueberry Scoop', color: '#a9b8ff' },
+      { name: 'Ube Swirl', color: '#c9a6f2' }, { name: 'Whipped Cream', color: '#fff6f8' },
+      { name: 'Rainbow Mallow', color: '#ffd1e6' }, { name: 'Sundae Bowl', color: '#ff9fbf' },
+      { name: 'Cloud Parfait', color: '#e4d6ff' },
+    ],
+  },
+  {
     id: 'ocean', soon: true,
     name: 'Ocean Pals', blurb: 'Bubbles to big whale',
     sky: 'linear-gradient(180deg, #9fdcff 0%, #c7ecff 55%, #e6f7ff 100%)',
