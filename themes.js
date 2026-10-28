@@ -69,7 +69,7 @@ const EDITIONS = [
     faces: false,
     tiers: [
       { name: 'Mini Mallow', color: '#fff4f6' }, { name: 'Strawberry Jam', color: '#ff5f7e' },
-      { name: 'Mint Scoop', color: '#b8f0d8' }, { name: 'Lemon Sorbet', color: '#fff1a0' },
+      { name: 'Mint Scoop', color: '#b8f0d8' }, { name: 'Honey Almond', color: '#f7d98a' },
       { name: 'Toasted Mallow', color: '#f2c27e' }, { name: 'Blueberry Scoop', color: '#a9b8ff' },
       { name: 'Ube Swirl', color: '#c9a6f2' }, { name: 'Whipped Cream', color: '#fff6f8' },
       { name: 'Rainbow Mallow', color: '#ffd1e6' }, { name: 'Sundae Bowl', color: '#ff9fbf' },
